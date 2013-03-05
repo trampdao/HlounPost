@@ -16,9 +16,9 @@ $facebook = new Facebook($config);
 
     $params = array(
         'scope' => 'read_stream, publish_stream, offline_access, status_update',
-        'next' => $settings->url.'register.php',
-        'cancel_url'=> $settings->url.'register.php',
-        'redirect_uri'=> $settings->url.'register.php',
+        'next' => $settings->url.'/register.php',
+        'cancel_url'=> $settings->url.'/register.php',
+        'redirect_uri'=> $settings->url.'/register.php',
         'display'=>'popup'
       );
     $loginUrl = $facebook->getLoginUrl($params);
