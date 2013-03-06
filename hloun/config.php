@@ -10,15 +10,15 @@ define(HOST,'localhost');
 
 /* DATABASE USERNAME */
 
-define(DB_USERNAME,'databaseusername');
+define(DB_USERNAME,'root');
 
 /* DATABASE PASSWORD */
 
-define(DB_PASSWORD,'dbpassword');
+define(DB_PASSWORD,'baha');
 
 /* DATABASE NAME */
 
-define(DB_NAME,'dbname');
+define(DB_NAME,'bh');
 
 /* Please Do Not Edit anything down */
 
@@ -66,6 +66,45 @@ function limit_str($text,$limit){
                 $b = $text;
         }
 return $b;
+}
+function getimg($url){
+
+$contetn = @file_get_contents($url);
+	if (empty($contetn)){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+	curl_setopt($ch, CURLOPT_URL, $url);
+	$contetn= curl_exec($ch);
+	curl_close($ch);
+	}
+return $contetn;
+}
+
+function makeimage($url,$image,$dir=''){
+            $data = getimg($url);
+                    $img = $dir.$image;
+                    $im = @imagecreatefromstring($data);
+                            if ($im !== false)
+                            {
+                                file_put_contents($img, $data);
+                            }else
+                            {
+                                $img = false; 
+                               
+                            }
+
+                    return $img;
+			
+}
+
+function getAcess($url)
+{
+    $url = parse_url($url);
+    $query = array();
+    parse_str($url['query'], $query);
+    return $query['access_token'];
+    
 }
 
 ?>
