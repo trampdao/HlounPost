@@ -66,24 +66,7 @@ class SQL {
        $sql = mysql_query("select * from $table");
        return mysql_num_rows($sql);
    }
-   function fUser()
-   {
-       $sql=  mysql_query("select * from users order by id asc limit 1");
-       $data = mysql_fetch_object($sql);
-       return $data->id;
-   }
-   function nUser($id)
-   {
-       $sql = mysql_query("select * from users where id>$id limit 1");
-       if(mysql_num_rows($sql)>=1)
-       {
-       $data = mysql_fetch_object($sql);
-       
-       return $data->id;
-       }else{
-       return 0;
-       }
-   }
+   
    function sUpdate($name,$data,$html=false)
    {
        if($html==true)

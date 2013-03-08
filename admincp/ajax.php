@@ -187,28 +187,10 @@ if(isLogin())
                 $sql = mysql_query("insert into posts (text,date,type,link)values('$text','$date','$type','$link')") or die(mysql_error());    
                 }
                 
-                }elseif($type==2)
-                {
-                  $timeb = time();  
-                  $link = $_POST['link'];
-                  $img = makeimage($link,'img'.time().".png",'tmp/');
-                  $sql = mysql_query("insert into posts (text,date,type,link)values('$text','$date','$type','$img')") or die(mysql_error());    
-               
-               }
+                }
                 if($sql)
                 {
-                    
-                    if($type==2){
-                     echo json_encode(array('st'=>'done',
-                         'msg'=>'تم اضافة المنشور الى القاعدة','postId'=>mysql_insert_id()));  
-                                         
-                    }else{
-                        
-                    echo json_encode(array('st'=>'done','msg'=>'تم اضافة المنشور الى القاعدة','postId'=>mysql_insert_id()));  
-                    }
-
-                
-                  
+                  echo json_encode(array('st'=>'done','msg'=>'تم اضافة المنشور الى القاعدة','postId'=>mysql_insert_id()));  
                 }else{
                   echo json_encode(array('st'=>'error','msg'=>'نعتذر هنالك خطا ما'.$link));  
                 }
@@ -233,7 +215,7 @@ if(isLogin())
             {
                 ?>
            <tr id="t<?=$row->id?>">
-               <td><?=$row->id?>-<? if ($row->type==1){ echo 'رابط'; }elseif($row->type==2){ echo 'صورة';}else{ echo 'نص'; }?></td>
+               <td><?=$row->id?>-<? if ($row->type==1){ echo 'رابط'; }else{ echo 'نص'; }?></td>
                <td><?=limit_str(stripslashes($row->text),12)?></td>
                <td><?=date("h:i - d/m/y",$row->date)?></td>
                <td><?php if($row->send==1) {echo 'تم النشر' ;} else{ echo 'لم يتم النشر '; } ?></td>
@@ -258,10 +240,9 @@ if(isLogin())
             if($data->type==1)
             {
             echo '<div><pre class="class="well">'.stripslashes($data->text).'</pre><br><input type="text" value="'.$data->link.'"><div>';
-            }elseif($data->type==2){
-             echo '<div><pre class="class="well">'.stripslashes($data->text).'</pre><br><img src="'.$data->link.'" /><div>';
             }else{
             echo '<div><pre class="class="well">'.stripslashes($data->text).'</pre><div>';
+                
             }
         }elseif($_GET['step']=='postRemove')
         {   $id=abs(intval($_POST['id']));

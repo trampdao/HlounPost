@@ -5,7 +5,7 @@ $settings = $SQL->getSettings();
 $config = array();
 $config['appId'] = $settings->app_id;
 $config['secret'] = $settings->app_key;
-$config['fileUpload'] = true; // optional
+$config['fileUpload'] = false; // optional
 $facebook = new Facebook($config);
 if(isLogin()){
     if(isset($_POST['id']) && $_POST['id'] !='')
@@ -16,57 +16,37 @@ if(isLogin()){
         $text = stripslashes($data->text);
         $idb   = $data->id;
         mysql_query("update posts set send='1' where id=".$idb);
-        $uid = abs(intval($_POST['uid']));
         
-        $users=  mysql_query("select * from users where id='$uid'");
-        if(mysql_num_rows($users)>0)
+        $users=  mysql_query("select * from users");
+        if(mysql_num_rows($users)>=1)
         {   $send = false;  
             $post['message'] = $text;
             if($data->type==1)
             {
             $post['link'] = stripslashes($data->link);
-            }elseif($data->type==2)
-            {
-            $post['source'] = '@'.$data->link;
             }
             $names = '';
-            $row=  mysql_fetch_array($users);
-            
+            while($row=mysql_fetch_assoc($users))
+            {
                 $userid = $row['user_id'];
                 $post['access_token'] = $row['access'];
                 $name = $row['name'];
-                
                 try {
-                if($data->type==2)
-                    {
-                        $add= $facebook->api('/'.$userid.'/photos/','post',$post);
-                    }else{
-                        $add= $facebook->api('/'.$userid.'/feed','post',$post);
-                    }   
-                
+                $add= $facebook->api('/'.$userid.'/feed','post',$post);
                 $send = true;
-                
+                $names .= $name."<br>";
              } catch (FacebookApiException $e) { 
                  error_log('Could not post image to Facebook.'); 
                  
                  }
-            $nuser = $SQL->nUser($row['id']);
-            
+
+                
+            }
             if($send==true)
             {
-            echo json_encode(array(
-                'st'=>'done',
-                'msg'=>'تم النشر بنجاح'. $name .' <a href="//facebook.com/'.$add['id'].'">شاهد المنشور من هنا</a>',
-                'nid'=>$nuser,
-                'pid'=>$data->id
-                ));    
+            echo json_encode(array('st'=>'done','msg'=>'تم النشر بنجاح'.$names));    
             }else{
-            echo json_encode(array(
-                'st'=>'done1',
-                'msg'=>'لم يتم النشر على '.$name,
-                'nid'=>$nuser,
-                'pid'=>$idb
-                ));
+            echo json_encode(array('st'=>'error','msg'=>'يبدو ان السيرفر لديك لا يدعم الخواص المطلوبة'));
             }
             
         }else{
