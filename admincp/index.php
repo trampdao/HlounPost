@@ -68,6 +68,6 @@ $settings = $SQL->getSettings();
        
         <script src="../js/bootstrap.min.js"></script>
         <script src="../js/jquery-te-1.3.3.min.js"></script>
-        <script src="admin1.js"></script>
+        <script src="admin.js"></script>
     </body>
 </html>

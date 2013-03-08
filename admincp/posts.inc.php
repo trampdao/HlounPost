@@ -7,7 +7,10 @@
               <select class="type" style="width:90%;">
                   <option value="0">منشور نصي</option>
                   <option value="1">رابط</option>
+                  <option value="2">صورة</option>
               </select>
+              
+              
               <textarea  class="postText" style="width:90%;height:80px;" placeholder="اكتب النص هنا"></textarea>
               <input type="text" class="linkToshare" style="width:90%;height:30px;display: none;" placeholder="اكتب الرابط هنا"/>
               <div class="btn-group" style="text-align: center">
@@ -17,11 +20,10 @@
                   </button>
               </div>
               <span style="margin-right:5px;display: none;" class="loder"><img src="../img/load.gif" style="width:30px;height:30px;"></span>
-
           </td>
       </tr>
   </table>
- <div class="msgs" style="display:none"></div>
+ <div class="msgs" style="display:none;max-height: 500px;overflow: auto;"></div>
  <div class="oldpost">
      
        <table class="table table-striped" style="background-color: #fff;border-radius: 2px;">
@@ -39,7 +41,7 @@
             {
                 ?>
            <tr id="t<?=$row->id?>">
-               <td><?=$row->id?>-<? if ($row->type==1){ echo 'رابط'; }else{ echo 'نص'; }?></td>
+               <td><?=$row->id?>-<? if ($row->type==1){ echo 'رابط'; }elseif($row->type==2){ echo 'صورة';}else{ echo 'نص'; }?></td>
                <td><?=limit_str(stripslashes($row->text),12)?></td>
                <td><?=date("h:i - d/m/y",$row->date)?></td>
                <td><?php if($row->send==1) {echo 'تم النشر' ;} else{ echo 'لم يتم النشر '; } ?></td>
@@ -70,3 +72,6 @@
            <button class="btn" data-dismiss="modal" aria-hidden="true">اخفاء</button>
          </div>
        </div>
+
+        
+        <input type="hidden" class="fid" value="<?=$SQL->fUser()?>"/>

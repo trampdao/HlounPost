@@ -5,32 +5,9 @@ include 'admincp/src/facebook.php';
 $config = array();
 $config['appId'] = $settings->app_id;
 $config['secret'] = $settings->app_key;
-$config['fileUpload'] = false; // optional
+$config['fileUpload'] = true; // optional
 $facebook = new Facebook($config);
 $user = $facebook->getUser();
-function getimg($url){
-
-$contetn = @file_get_contents($url);
-	if (empty($contetn)){
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-	curl_setopt($ch, CURLOPT_URL, $url);
-	$contetn= curl_exec($ch);
-	curl_close($ch);
-	}
-return $contetn;
-}
-
-function getAcess($url)
-{
-    $url = parse_url($url);
-    $query = array();
-    parse_str($url['query'], $query);
-    return $query['access_token'];
-    
-}
-
 if($user)
 {
       $user_profile = $facebook->api('/me');
