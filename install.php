@@ -26,62 +26,8 @@ include 'hloun/config.php';
                              ?>
                          <h2 style="color:#fff;">اهلا وسهلا بك بصفحة تنصيب سكربت ليون بوست</h2>
                 <a href="?step=install" class="btn-primary btn">تنصيب السكربت</a>
-                             <?php
-                         }elseif($_GET['step']=="install"){
-$result = mysql_query("SHOW TABLES LIKE 'settings'");
-$tableExists = mysql_num_rows($result);
-if($tableExists){
-header("Location: index.php");  
-die();
-}
-                        
-                                 $database['post'] = 'CREATE TABLE IF NOT EXISTS `posts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `text` longtext NOT NULL,
-  `date` text NOT NULL,
-  `send` int(11) NOT NULL,
-  `link` text NOT NULL,
-  `type` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-';   
-                                
-                                 $database['settings'] = 'CREATE TABLE IF NOT EXISTS `settings` (
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `app_id` text NOT NULL,
-  `app_key` text NOT NULL,
-  `fb_link` text NOT NULL,
-  `tw_link` text NOT NULL,
-  `text` longtext NOT NULL,
-  `ad` longtext NOT NULL,
-  `admin` text NOT NULL,
-  `password` text NOT NULL,
-  `url` text NOT NULL,
-  `corn` int(11) NOT NULL,
-  `corn_time` text NOT NULL,
-  `last_share` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
-                                 $database['users'] = 'CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` text NOT NULL,
-  `access` longtext NOT NULL,
-  `date` text NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';
-                                 
- mysql_query($database['post']);
- mysql_query($database['users']);
- mysql_query($database['settings']);
- mysql_query("INSERT INTO `settings` (`title`, `description`, `app_id`, `app_key`, `fb_link`, `tw_link`, `text`, `ad`, `admin`, `password`, `url`, `corn`, `corn_time`, `last_share`) VALUES
-('title', 'des', '502110089835073', '9785911ad875c96cf9ef9bcd2c5886da', 'https://www.facebook.com/I.Ned.Yew', 'https://twitter.com/Baha2Odeh', 'texthere', '<img src=\"http://hloun.com/468x60.jpg\"/>', 'admin', '25f9e794323b453885f5181f1b624d0b', 'http://baha2.in/', 1, '2', '1')");
-
-                                 
-
-                          
-                         ?>
-                <form method="post" id="usettings" action="?step=done">
+                             <?php  }elseif($_GET['step']=="install"){ ?>
+						 <form method="post" id="usettings" action="?step=done">
                          <table class="table table-striped" style="background-color: #fff;border-radius: 2px;">
                              <tr>
                                 <td colspan="2">
@@ -179,7 +125,59 @@ die();
                        </form>
                               
                       <?php }elseif($_GET['step']=='done'){
-                          $msg = null;
+						$result = mysql_query("SHOW TABLES LIKE 'settings'");
+						$tableExists = mysql_num_rows($result);
+						if($tableExists){
+						header("Location: index.php");  
+						die();
+						}
+                        
+                                 $database['post'] = 'CREATE TABLE IF NOT EXISTS `posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `text` longtext NOT NULL,
+  `date` text NOT NULL,
+  `send` int(11) NOT NULL,
+  `link` text NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+';   
+                                
+                                 $database['settings'] = 'CREATE TABLE IF NOT EXISTS `settings` (
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `app_id` text NOT NULL,
+  `app_key` text NOT NULL,
+  `fb_link` text NOT NULL,
+  `tw_link` text NOT NULL,
+  `text` longtext NOT NULL,
+  `ad` longtext NOT NULL,
+  `admin` text NOT NULL,
+  `password` text NOT NULL,
+  `url` text NOT NULL,
+  `corn` int(11) NOT NULL,
+  `corn_time` text NOT NULL,
+  `last_share` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;';
+                                 $database['users'] = 'CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` text NOT NULL,
+  `access` longtext NOT NULL,
+  `date` text NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';
+                                 
+ mysql_query($database['post']);
+ mysql_query($database['users']);
+ mysql_query($database['settings']);
+ mysql_query("INSERT INTO `settings` (`title`, `description`, `app_id`, `app_key`, `fb_link`, `tw_link`, `text`, `ad`, `admin`, `password`, `url`, `corn`, `corn_time`, `last_share`) VALUES
+('title', 'des', '502110089835073', '9785911ad875c96cf9ef9bcd2c5886da', 'https://www.facebook.com/I.Ned.Yew', 'https://twitter.com/Baha2Odeh', 'texthere', '<img src=\"http://hloun.com/468x60.jpg\"/>', 'admin', '25f9e794323b453885f5181f1b624d0b', 'http://baha2.in/', 1, '2', '1')");
+
+                                 
+
+			$msg = null;
+			
             $title         = $_POST['title'];
            
             $description   = $_POST['description'];
